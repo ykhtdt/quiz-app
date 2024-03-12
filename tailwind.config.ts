@@ -10,6 +10,12 @@ const config = {
   ],
   prefix: "",
   theme: {
+    breakpoints: {
+      mobile: "580px",
+      tablet: "900px",
+      laptop: "1200px",
+      desktop: "1440px",
+    },
     container: {
       center: true,
       padding: "2rem",
