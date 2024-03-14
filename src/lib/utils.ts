@@ -15,3 +15,7 @@ export function shuffle<T>(array: T[]) {
 
   return array;
 }
+
+export const toArrayTuple = (array: string[]): [string, ...string[]] => {
+  return [array[0], ...array.slice(1)];
+};
