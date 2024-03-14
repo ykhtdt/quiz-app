@@ -10,11 +10,12 @@ const config = {
   ],
   prefix: "",
   theme: {
-    breakpoints: {
-      mobile: "580px",
-      tablet: "900px",
-      laptop: "1200px",
-      desktop: "1440px",
+    screens: {
+      sm: "580px",
+      md: "580px",
+      lg: "1200px",
+      xl: "1440px",
+      fhd: "1920px",
     },
     container: {
       center: true,
@@ -24,6 +25,13 @@ const config = {
       },
     },
     extend: {
+      maxWidth: {
+        mobile: "580px",
+        tablet: "900px",
+        laptop: "1200px",
+        desktop: "1440px",
+        fhd: "1920px",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
