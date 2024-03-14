@@ -72,17 +72,18 @@ export default function QuizForm({ onStart }: Props) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-3">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
         <FormField
           control={form.control}
           name="amount"
+          disabled={disabled}
           render={({ field }) => (
-            <FormItem className="space-y-3">
+            <FormItem className="space-y-2">
               <FormLabel>How many questions?</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a verified email to display" />
+                    <SelectValue placeholder="How many questions?" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -102,77 +103,68 @@ export default function QuizForm({ onStart }: Props) {
         <FormField
           control={form.control}
           name="type"
+          disabled={disabled}
           render={({ field }) => (
-            <FormItem className="space-y-3">
-              <FormLabel className="">Select Question Type</FormLabel>
-              <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  disabled={disabled}
-                  className="flex flex-col space-y-1"
-                >
+            <FormItem className="space-y-2">
+              <FormLabel>Select Question Type</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Question Type" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
                   {TRIVIA_TYPE.map((element, i) => (
-                    <FormItem
+                    <SelectItem
                       key={`trivia-type-${element.key}`}
-                      className="flex items-center space-x-3 space-y-0"
+                      value={element.value}
                     >
-                      <FormControl>
-                        <RadioGroupItem value={element.value} />
-                      </FormControl>
-                      <FormLabel className="font-normal">
-                        {element.text}
-                      </FormLabel>
-                    </FormItem>
+                      {element.text}
+                    </SelectItem>
                   ))}
-                </RadioGroup>
-              </FormControl>
-              <FormMessage />
+                </SelectContent>
+              </Select>
             </FormItem>
           )}
         />
         <FormField
           control={form.control}
           name="difficulty"
+          disabled={disabled}
           render={({ field }) => (
-            <FormItem className="space-y-3">
+            <FormItem className="space-y-2">
               <FormLabel>Select Question Difficulty</FormLabel>
-              <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  disabled={disabled}
-                  className="flex flex-col space-y-1"
-                >
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Question Difficulty" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
                   {TRIVIA_DIFFICULTY.map((element, i) => (
-                    <FormItem
+                    <SelectItem
                       key={`trivia-difficulty-${element.key}`}
-                      className="flex items-center space-x-3 space-y-0"
+                      value={element.value}
                     >
-                      <FormControl>
-                        <RadioGroupItem value={element.value} />
-                      </FormControl>
-                      <FormLabel className="font-normal">
-                        {element.text}
-                      </FormLabel>
-                    </FormItem>
+                      {element.text}
+                    </SelectItem>
                   ))}
-                </RadioGroup>
-              </FormControl>
-              <FormMessage />
+                </SelectContent>
+              </Select>
             </FormItem>
           )}
         />
         <FormField
           control={form.control}
           name="category"
+          disabled={disabled}
           render={({ field }) => (
-            <FormItem className="space-y-3">
+            <FormItem className="space-y-2">
               <FormLabel>Select Question Category</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a verified email to display" />
+                    <SelectValue placeholder="Select Question Category" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
