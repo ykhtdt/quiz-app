@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 
 import { Inter } from "next/font/google";
 
-import { PageWrapper } from "@/components/layouts/page-wrapper";
+import { ThemeProvider } from "@/components/provider/theme-provider";
+import { PageWrapper } from "@/components/layout/page-wrapper";
+import { Container } from "@/components/layout/container";
 import { Toaster } from "@/components/ui/toaster";
 
 import "./globals.css";
@@ -22,10 +24,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <PageWrapper>
-          <main className="flex flex-1">{children}</main>
-          <Toaster />
-        </PageWrapper>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <PageWrapper>
+            <main className="flex flex-1">
+              <Container>{children}</Container>
+            </main>
+            <Toaster />
+          </PageWrapper>
+        </ThemeProvider>
       </body>
     </html>
   );
