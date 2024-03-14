@@ -11,3 +11,12 @@ export interface Question extends TriviaResponseResult {
  * Trivia API의 응답으로 받은 정답과 오답을 섞어 문제의 문항으로 만드는 함수
  */
 export type CreateQuestion = (input: TriviaResponseResult) => Question;
+
+/**
+ * Trivia API의 요청의 Form Field 타입
+ */
+export type TriviaAmount = {
+  key: number;
+  text: number;
+  value: string;
+};
