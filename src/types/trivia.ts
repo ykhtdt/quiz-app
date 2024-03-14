@@ -13,7 +13,7 @@
  * API 요청에 사용되는 쿼리스트링
  *
  * @remarks
- * - amount: 질문 개수
+ * - amount: 질문 개수(최소5, 최대50)
  * - type: 질문 유형
  * - difficulty: 질문 난이도
  * - category: 질문 카테고리
