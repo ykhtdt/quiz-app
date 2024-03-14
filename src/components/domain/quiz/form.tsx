@@ -1,6 +1,7 @@
 import type { TriviaResponse } from "@/types/trivia";
 
 import { TRIVIA_TYPE } from "@/constants/trivia-type";
+import { TRIVIA_AMOUNT } from "@/constants/trivia-amount";
 import { TRIVIA_DIFFICULTY } from "@/constants/trivia-difficulty";
 import { TRIVIA_CATEGORY } from "@/constants/trivia-category";
 
@@ -33,7 +34,9 @@ type Props = {
 };
 
 const formSchema = z.object({
-  amount: z.number().min(10).max(50),
+  amount: z.enum(
+    toArrayTuple(TRIVIA_AMOUNT.map((element) => String(element.value))),
+  ),
   type: z.enum(toArrayTuple(TRIVIA_TYPE.map((element) => element.value))),
   difficulty: z.enum(
     toArrayTuple(TRIVIA_DIFFICULTY.map((element) => element.value)),
@@ -47,14 +50,14 @@ export default function QuizForm({ onStart }: Props) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      amount: 10,
+      amount: TRIVIA_AMOUNT[0].value,
       type: TRIVIA_TYPE[0].value,
       difficulty: TRIVIA_DIFFICULTY[0].value,
       category: TRIVIA_CATEGORY[0].value,
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     const { amount, type, difficulty, category } = values;
 
     const res = await fetch(
@@ -69,7 +72,33 @@ export default function QuizForm({ onStart }: Props) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-3">
+        <FormField
+          control={form.control}
+          name="amount"
+          render={({ field }) => (
+            <FormItem className="space-y-3">
+              <FormLabel>How many questions?</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a verified email to display" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {TRIVIA_AMOUNT.map((element, i) => (
+                    <SelectItem
+                      key={`trivia-category-${element.key}`}
+                      value={element.value}
+                    >
+                      {element.text}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="type"
@@ -160,7 +189,7 @@ export default function QuizForm({ onStart }: Props) {
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={disabled}>
+        <Button type="submit" size="lg" disabled={disabled}>
           Submit
         </Button>
       </form>
