@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { toArrayTuple } from "@/lib/utils";
+import { startQuiz } from "@/service/quiz/start-quiz";
 
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -29,43 +30,38 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import {
+  TRIVIA_FORM_AMOUNT,
+  TRIVIA_FORM_TYPE,
+  TRIVIA_FORM_DIFFICULTY,
+  TRIVIA_FORM_CATEGORY,
+} from "./form.schema";
+
 type Props = {
   onStart: (data: TriviaResponse) => void;
 };
 
 const formSchema = z.object({
-  amount: z.enum(
-    toArrayTuple(TRIVIA_AMOUNT.map((element) => String(element.value))),
-  ),
-  type: z.enum(toArrayTuple(TRIVIA_TYPE.map((element) => element.value))),
-  difficulty: z.enum(
-    toArrayTuple(TRIVIA_DIFFICULTY.map((element) => element.value)),
-  ),
-  category: z.enum(
-    toArrayTuple(TRIVIA_CATEGORY.map((element) => element.value)),
-  ),
+  amount: z.enum(TRIVIA_FORM_AMOUNT),
+  type: z.enum(TRIVIA_FORM_TYPE),
+  difficulty: z.enum(TRIVIA_FORM_DIFFICULTY),
+  category: z.enum(TRIVIA_FORM_CATEGORY),
 });
 
 export default function QuizForm({ onStart }: Props) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      amount: TRIVIA_AMOUNT[0].value,
-      type: TRIVIA_TYPE[0].value,
-      difficulty: TRIVIA_DIFFICULTY[0].value,
-      category: TRIVIA_CATEGORY[0].value,
+      amount: "10",
+      type: "multiple",
+      difficulty: "0",
+      category: "0",
     },
   });
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
-    const { amount, type, difficulty, category } = values;
-
-    const res = await fetch(
-      `https://opentdb.com/api.php?amount=${amount}&type=${type}&difficulty=${difficulty}&category=${category}`,
-    );
-
-    const data: TriviaResponse = await res.json();
-    onStart(data);
+    const data = await startQuiz(values);
+    console.log(data);
   };
 
   const disabled = form.formState.isSubmitting || form.formState.isSubmitted;
@@ -80,7 +76,11 @@ export default function QuizForm({ onStart }: Props) {
           render={({ field }) => (
             <FormItem className="space-y-2">
               <FormLabel>How many questions?</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                disabled={field.disabled}
+              >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="How many questions?" />
@@ -107,7 +107,11 @@ export default function QuizForm({ onStart }: Props) {
           render={({ field }) => (
             <FormItem className="space-y-2">
               <FormLabel>Select Question Type</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                disabled={field.disabled}
+              >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Select Question Type" />
@@ -134,7 +138,11 @@ export default function QuizForm({ onStart }: Props) {
           render={({ field }) => (
             <FormItem className="space-y-2">
               <FormLabel>Select Question Difficulty</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                disabled={field.disabled}
+              >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Select Question Difficulty" />
@@ -161,7 +169,11 @@ export default function QuizForm({ onStart }: Props) {
           render={({ field }) => (
             <FormItem className="space-y-2">
               <FormLabel>Select Question Category</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                disabled={field.disabled}
+              >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Select Question Category" />
@@ -182,7 +194,7 @@ export default function QuizForm({ onStart }: Props) {
           )}
         />
         <Button type="submit" size="lg" disabled={disabled}>
-          Submit
+          Start
         </Button>
       </form>
     </Form>
