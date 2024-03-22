@@ -1,5 +1,4 @@
-import type { TriviaResponse } from "@/type/trivia";
-import type { TriviaField } from "@/type/question";
+import type { CreateQuestion, TriviaField } from "@/type/question";
 
 import { TRIVIA_TYPE } from "@/constant/trivia-type";
 import { TRIVIA_AMOUNT } from "@/constant/trivia-amount";
@@ -10,6 +9,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { shuffle } from "@/lib/utils";
+import { useQuizStore } from "@/store/use-quiz-store";
 import { startQuiz } from "@/service/quiz/start-quiz";
 
 import { Button } from "@/component/ui/button";
@@ -18,11 +19,9 @@ import { Form } from "@/component/ui/form";
 import { formSchema } from "./form-schema";
 import FieldSelect from "./field-select";
 
-type Props = {
-  onStart: (data: TriviaResponse) => void;
-};
+const QuizForm = () => {
+  const save = useQuizStore((state) => state.save);
 
-const QuizForm = ({ onStart }: Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -35,10 +34,18 @@ const QuizForm = ({ onStart }: Props) => {
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     const data = await startQuiz(values);
-    console.log(data);
-  };
 
-  const disabled = form.formState.isSubmitting || form.formState.isSubmitted;
+    const { results } = data;
+
+    const createQuestion: CreateQuestion = (input) => ({
+      ...input,
+      answers: shuffle([...input.incorrect_answers, input.correct_answer]),
+    });
+
+    const questions = results.map(createQuestion);
+
+    save(questions);
+  };
 
   const fields: TriviaField[] = [
     {
@@ -66,6 +73,8 @@ const QuizForm = ({ onStart }: Props) => {
       content: [...TRIVIA_CATEGORY],
     },
   ];
+
+  const disabled = form.formState.isSubmitting || form.formState.isSubmitted;
 
   return (
     <Form {...form}>
