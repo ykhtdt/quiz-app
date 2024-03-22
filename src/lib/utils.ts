@@ -16,6 +16,6 @@ export const shuffle = <T>(array: T[]) => {
   return array;
 };
 
-export const toArrayTuple = (array: string[]): [string, ...string[]] => {
+export const toArrayTuple = <T>(array: T[]): [T, ...T[]] => {
   return [array[0], ...array.slice(1)];
 };

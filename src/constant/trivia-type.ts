@@ -14,4 +14,4 @@ export const TRIVIA_TYPE = [
     text: "True / False",
     value: "boolean",
   },
-];
+] as const;

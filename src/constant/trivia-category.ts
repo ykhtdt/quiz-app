@@ -124,4 +124,4 @@ export const TRIVIA_CATEGORY = [
     text: "Entertainment: Cartoon & Animations",
     value: "32",
   },
-];
+] as const;

@@ -19,4 +19,4 @@ export const TRIVIA_DIFFICULTY = [
     text: "Hard",
     value: "hard",
   },
-];
+] as const;

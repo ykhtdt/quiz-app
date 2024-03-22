@@ -19,11 +19,62 @@
  * - category: 질문 카테고리
  */
 export type TriviaRequestQuery = {
-  amount: number;
-  type: 0 | TriviaType;
-  difficulty: 0 | TriviaDifficulty;
-  category: 0 | TriviaRequestCategory;
+  amount: TriviaRequestAmount;
+  type: TriviaRequestType;
+  difficulty: TriviaRequestDifficulty;
+  category: TriviaRequestCategory;
 };
+
+/**
+ * API 요청에 사용되는 가능한 질문 개수
+ */
+export type TriviaRequestAmount =
+  | 5
+  | 6
+  | 7
+  | 8
+  | 9
+  | 10
+  | 11
+  | 12
+  | 13
+  | 14
+  | 15
+  | 16
+  | 17
+  | 18
+  | 19
+  | 20
+  | 21
+  | 22
+  | 23
+  | 24
+  | 25
+  | 26
+  | 27
+  | 28
+  | 29
+  | 30
+  | 31
+  | 32
+  | 33
+  | 34
+  | 35
+  | 36
+  | 37
+  | 38
+  | 39
+  | 40
+  | 41
+  | 42
+  | 43
+  | 44
+  | 45
+  | 46
+  | 47
+  | 48
+  | 49
+  | 50;
 
 /**
  * API 요청에 사용되는 질문 카테고리
@@ -56,6 +107,7 @@ export type TriviaRequestQuery = {
  * - 32: Entertainment: Cartoon &amp; Animations
  */
 export type TriviaRequestCategory =
+  | 0
   | 9
   | 10
   | 11
@@ -132,7 +184,7 @@ export type TriviaResponseCategory =
  * - medium: 중간
  * - hard: 어려움
  */
-export type TriviaDifficulty = "easy" | "medium" | "hard";
+export type TriviaRequestDifficulty = "0" | "easy" | "medium" | "hard";
 
 /**
  * 질문 유형
@@ -142,7 +194,7 @@ export type TriviaDifficulty = "easy" | "medium" | "hard";
  * - multiple: Multiple Choice(1~4 Answers)
  * - boolean: True or False
  */
-export type TriviaType = "multiple" | "boolean";
+export type TriviaRequestType = "0" | "multiple" | "boolean";
 
 /**
  * API에서 반환하는 응답 값
@@ -156,8 +208,8 @@ export type TriviaResponse = {
  * API에서 응답하는 각 질문의 타입
  */
 export type TriviaResponseResult = {
-  type: TriviaType;
-  difficulty: TriviaDifficulty;
+  type: TriviaRequestType;
+  difficulty: TriviaRequestDifficulty;
   category: TriviaResponseCategory;
   question: string;
   correct_answer: string;

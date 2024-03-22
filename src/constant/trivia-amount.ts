@@ -1,11 +1,16 @@
-import type { TriviaFieldItem } from "@/type/question";
+import type { TriviaRequestAmount } from "@/type/trivia";
 
-export const TRIVIA_AMOUNT: TriviaFieldItem[] = [];
+type TriviaAmount = ReadonlyArray<{
+  key: `${TriviaRequestAmount}`;
+  text: `${TriviaRequestAmount}`;
+  value: `${TriviaRequestAmount}`;
+}>;
 
-for (let i = 5; i <= 50; i++) {
-  TRIVIA_AMOUNT.push({
-    key: String(i),
-    text: String(i),
-    value: String(i),
-  });
-}
+export const TRIVIA_AMOUNT: TriviaAmount = Array.from(
+  { length: 46 },
+  (_, i) => ({
+    key: `${i + 5}` as `${TriviaRequestAmount}`,
+    text: `${i + 5}` as `${TriviaRequestAmount}`,
+    value: `${i + 5}` as `${TriviaRequestAmount}`,
+  }),
+);
