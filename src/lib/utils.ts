@@ -1,11 +1,11 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-export function cn(...inputs: ClassValue[]) {
+export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs));
-}
+};
 
-export function shuffle<T>(array: T[]) {
+export const shuffle = <T>(array: T[]) => {
   array = [...array];
 
   for (let i = array.length - 1; i > 0; i--) {
@@ -14,4 +14,8 @@ export function shuffle<T>(array: T[]) {
   }
 
   return array;
-}
+};
+
+export const toArrayTuple = <T>(array: T[]): [T, ...T[]] => {
+  return [array[0], ...array.slice(1)];
+};

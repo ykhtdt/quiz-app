@@ -10,6 +10,13 @@ const config = {
   ],
   prefix: "",
   theme: {
+    screens: {
+      sm: "580px",
+      md: "580px",
+      lg: "1200px",
+      xl: "1440px",
+      fhd: "1920px",
+    },
     container: {
       center: true,
       padding: "2rem",
@@ -18,6 +25,13 @@ const config = {
       },
     },
     extend: {
+      maxWidth: {
+        mobile: "580px",
+        tablet: "900px",
+        laptop: "1200px",
+        desktop: "1440px",
+        fhd: "1920px",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
