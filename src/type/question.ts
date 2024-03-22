@@ -15,7 +15,7 @@ export type CreateQuestion = (input: TriviaResponseResult) => Question;
 /**
  * Trivia API의 요청 Form에서 각 Field의 타입
  */
-export type TriviaFieldValue = {
+export type TriviaFieldItem = {
   key: string;
   text: string;
   value: string;

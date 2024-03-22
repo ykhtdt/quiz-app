@@ -1,6 +1,6 @@
-import type { TriviaFieldValue } from "@/type/question";
+import type { TriviaFieldItem } from "@/type/question";
 
-export const TRIVIA_AMOUNT: TriviaFieldValue[] = [];
+export const TRIVIA_AMOUNT: TriviaFieldItem[] = [];
 
 for (let i = 5; i <= 50; i++) {
   TRIVIA_AMOUNT.push({
