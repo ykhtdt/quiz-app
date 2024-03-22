@@ -1,10 +1,10 @@
 "use client";
 
-import type { TriviaResponse } from "@/types/trivia";
+import type { TriviaResponse } from "@/type/trivia";
 
 import { useState } from "react";
 
-import QuizForm from "@/components/domain/quiz/form";
+import QuizForm from "@/component/domain/quiz/form";
 
 export default function Home({ params }: { params: { hash: string } }) {
   const [data, setData] = useState<TriviaResponse | undefined>(undefined);

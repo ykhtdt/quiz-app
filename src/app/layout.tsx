@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 
 import { Inter } from "next/font/google";
 
-import { ThemeProvider } from "@/components/provider/theme-provider";
-import { PageWrapper } from "@/components/layout/page-wrapper";
-import { Container } from "@/components/layout/container";
-import { Toaster } from "@/components/ui/toaster";
+import { ThemeProvider } from "@/component/provider/theme-provider";
+import { PageWrapper } from "@/component/layout/page-wrapper";
+import { Container } from "@/component/layout/container";
+import { Toaster } from "@/component/ui/toaster";
 
 import "./globals.css";
 
