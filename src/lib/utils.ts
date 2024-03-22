@@ -19,3 +19,9 @@ export const shuffle = <T>(array: T[]) => {
 export const toArrayTuple = <T>(array: T[]): [T, ...T[]] => {
   return [array[0], ...array.slice(1)];
 };
+
+export const delay = (milliseconds: number) => {
+  return new Promise<void>((resolve) => {
+    setTimeout(resolve, milliseconds);
+  });
+};
