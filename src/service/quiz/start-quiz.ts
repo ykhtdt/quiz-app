@@ -1,5 +1,5 @@
-import type { StringifyProperties } from "@/types/utils";
-import type { TriviaRequestQuery, TriviaResponse } from "@/types/trivia";
+import type { StringifyProperties } from "@/type/utils";
+import type { TriviaRequestQuery, TriviaResponse } from "@/type/trivia";
 
 type Props = StringifyProperties<TriviaRequestQuery>;
 
