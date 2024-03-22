@@ -1,16 +1,18 @@
-import type { CreateQuestion, TriviaField } from "@/type/question";
+import type { TriviaResponse } from "@/type/trivia";
+import type { TriviaField } from "@/type/question";
 
 import { TRIVIA_TYPE } from "@/constant/trivia-type";
 import { TRIVIA_AMOUNT } from "@/constant/trivia-amount";
 import { TRIVIA_DIFFICULTY } from "@/constant/trivia-difficulty";
 import { TRIVIA_CATEGORY } from "@/constant/trivia-category";
 
+import { useEffect } from "react";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { shuffle } from "@/lib/utils";
-import { useQuizStore } from "@/store/use-quiz-store";
+import { delay } from "@/lib/utils";
 import { startQuiz } from "@/service/quiz/start-quiz";
 
 import { Button } from "@/component/ui/button";
@@ -19,9 +21,11 @@ import { Form } from "@/component/ui/form";
 import { formSchema } from "./form-schema";
 import FieldSelect from "./field-select";
 
-const QuizForm = () => {
-  const save = useQuizStore((state) => state.save);
+type Props = {
+  onStart: (data: TriviaResponse) => void;
+};
 
+const QuizSetupForm = ({ onStart }: Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -33,18 +37,14 @@ const QuizForm = () => {
   });
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
-    const data = await startQuiz(values);
-
-    const { results } = data;
-
-    const createQuestion: CreateQuestion = (input) => ({
-      ...input,
-      answers: shuffle([...input.incorrect_answers, input.correct_answer]),
-    });
-
-    const questions = results.map(createQuestion);
-
-    save(questions);
+    try {
+      const data = await startQuiz(values);
+      onStart(data);
+    } catch (error: any) {
+      form.setError("root.serverError", {
+        message: error.message,
+      });
+    }
   };
 
   const fields: TriviaField[] = [
@@ -76,6 +76,23 @@ const QuizForm = () => {
 
   const disabled = form.formState.isSubmitting || form.formState.isSubmitted;
 
+  const serverError = form.formState.errors.root?.serverError;
+
+  useEffect(() => {
+    /**
+     * Trivia API는 각 IP가 5초에 한 번만 API에 액세스할 수 있다.
+     * 5초 뒤 form을 reset하여 다시 액세스를 가능하게한다.
+     */
+    const formReset = async () => {
+      await delay(5000);
+      form.reset();
+    };
+
+    if (serverError) {
+      formReset();
+    }
+  }, [form, serverError]);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
@@ -86,8 +103,11 @@ const QuizForm = () => {
           Start
         </Button>
       </form>
+      {serverError && (
+        <div className="text-red-700 text-center">{serverError.message}</div>
+      )}
     </Form>
   );
 };
 
-export default QuizForm;
+export default QuizSetupForm;

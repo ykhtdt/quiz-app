@@ -10,9 +10,19 @@ export const startQuiz = async ({
   category,
 }: Props): Promise<TriviaResponse> => {
   const res = await fetch(
-    `/api/quiz?amount=${amount}&type=${type}&difficulty=${difficulty}&category=${category}`,
+    `${process.env.NEXT_PUBLIC_API_URL}?amount=${amount}&type=${type}&difficulty=${difficulty}&category=${category}`,
   );
 
-  const data = res.json();
+  if (!res.ok) {
+    const { response_code }: TriviaResponse = await res.json();
+
+    if (response_code === 5) {
+      throw new Error("Too many request. Please try again.");
+    }
+
+    throw new Error("Internal Server Error.");
+  }
+
+  const data: TriviaResponse = await res.json();
   return data;
 };
