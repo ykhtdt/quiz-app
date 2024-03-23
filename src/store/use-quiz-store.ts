@@ -4,14 +4,22 @@ import { create } from "zustand";
 
 type QuizStore = {
   questions: Question[];
-  save: (nextState: Question[]) => void;
+  userAnswers: string[];
+  saveQuestions: (nextState: Question[]) => void;
+  saveUserAnswers: (answer: string) => void;
 };
 
 export const useQuizStore = create<QuizStore>((set) => ({
   questions: [],
-  save: (nextState) => {
+  userAnswers: [],
+  saveQuestions: (nextState) => {
     set({
       questions: nextState,
     });
+  },
+  saveUserAnswers: (answer) => {
+    set((state) => ({
+      userAnswers: state.userAnswers.concat([answer]),
+    }));
   },
 }));

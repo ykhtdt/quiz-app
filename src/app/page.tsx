@@ -12,7 +12,7 @@ import QuizSetupForm from "@/domain/quiz/setup/form";
 import QuizPlayForm from "@/domain/quiz/play/form";
 
 export default function Home({ params }: { params: { hash: string } }) {
-  const save = useQuizStore((state) => state.save);
+  const saveQuestions = useQuizStore((state) => state.saveQuestions);
 
   const [isStarted, setIsStarted] = useState(false);
 
@@ -26,7 +26,7 @@ export default function Home({ params }: { params: { hash: string } }) {
 
     const questions = results.map(createQuestion);
 
-    save(questions);
+    saveQuestions(questions);
     setIsStarted(true);
   };
 
